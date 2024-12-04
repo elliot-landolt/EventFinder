@@ -1,0 +1,31 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set page_title = "Login with Google" %}
+{% set active_page = "login" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='strike.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='google-login.css') }}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container" style="max-width: 350px;">
+        <h1>Login</h1>
+
+        <p class="lead mb-3">For new or existing users.</p>
+
+        <div class="d-grid gap-2">
+            <a href="/auth/google/login" class="google-login-button btn btn-block position-relative">
+                <span class="google-login-button-wrapper position-absolute top-50 start-0 translate-middle-y">
+                    <img class="google-logo"
+                        src="{{ url_for('static', filename='google-button/rainbow-g-logo.svg') }}"
+                        alt="Rainbow G Logo"
+                    >
+                </span>
+
+                <span class="google-login-button-text">Login with Google</span>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}
