@@ -57,21 +57,18 @@ def address_sanity_check(input_text):
             case 'suburb' | 'district':
                 # throw an error here, is it worth supporting? 
                 print('ERR')
-            
-        return sanity_check, result
+
+        # still have to cut the len to support ticketmaster api
+        geohash_code = geohash2.encode(result["lat"], result["lon"])    
+        return sanity_check, geohash_code
     
     else:
         print('ERR')
 
-def result_to_hash(result):
-    geohash_code = geohash2.encode(result["lat"], result["lon"])
-    return geohash_code
-
 if __name__ == "__main__":
     destination = input('Where Are You Traveling? ')
-    sanity_check, result = address_sanity_check(destination)
+    sanity_check, geohash = address_sanity_check(destination)
     for key, value in sanity_check.items():
         print(f'{key}: {value}')
     
-    geohash = result_to_hash(result)
     print(geohash)
