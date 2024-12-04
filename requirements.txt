@@ -1,0 +1,9 @@
+requests
+
+python-dotenv
+
+pytest
+
+flask
+
+gunicorn
