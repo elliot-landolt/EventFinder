@@ -31,21 +31,47 @@ def address_sanity_check(input_text):
                     'Name':result['name'],
                     'Address Line 1':result['address_line1'],
                     'Address Line 2':result['address_line2'],
-                    'City':result['city'],
-                    'Country':result['country']
                 }
             
             case 'building':
                 # this is a street address (Ex. 3700 O St NW)
-                print(result_type)
-            case _:
-                print('this has not yet been implemented')
-                sanity_check = {}
+                print(result)
+                sanity_check = {
+                    'Result Type':'Address',
+                    'Address Line 1':result['address_line1'],
+                    'Address Line 2':result['address_line2'],
+                }
+            
+            case 'street' | 'postcode':
+                # this is a literal street (Ex. O St. NW)
+                print(result)
+                sanity_check = {
+                    'Result Type':result_type.capitalize(),
+                    'Address Line 1':result['address_line1'],
+                    'Address Line 2':result['address_line2'],
+                }
+
+            case 'city' | 'county':
+                print(result)
+                sanity_check = {
+                    'Result Type':result_type.capitalize(),
+                    'Address Line 1':result['address_line1'],
+                    'Address Line 2':result['address_line2'],
+                }
+
+            case 'state' | 'country':
+                # throw an error here for more specificity
+                print('ERR')
+
+            case 'suburb' | 'district':
+                # throw an error here, is it worth supporting?
+                print('ERR')
     
         print('Is the following data accurate?')
         for key, value in sanity_check.items():
            print(f'{key}: {value}')
         return input('Y/N: ')
+    
     else:
         print('ERR')
 
