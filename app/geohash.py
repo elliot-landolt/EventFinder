@@ -1,4 +1,5 @@
 import requests
+import geohash2
 from app.geoapify import GEOAPIFY_KEY
 
 def address_sanity_check(input_text):
@@ -35,24 +36,14 @@ def address_sanity_check(input_text):
             
             case 'building':
                 # this is a street address (Ex. 3700 O St NW)
-                print(result)
                 sanity_check = {
                     'Result Type':'Address',
                     'Address Line 1':result['address_line1'],
                     'Address Line 2':result['address_line2'],
                 }
             
-            case 'street' | 'postcode':
-                # this is a literal street (Ex. O St. NW)
-                print(result)
-                sanity_check = {
-                    'Result Type':result_type.capitalize(),
-                    'Address Line 1':result['address_line1'],
-                    'Address Line 2':result['address_line2'],
-                }
-
-            case 'city' | 'county':
-                print(result)
+            case 'street' | 'postcode' | 'city' | 'country':
+                # this is a literal street, postcode, city, or country (Ex. O St. NW)
                 sanity_check = {
                     'Result Type':result_type.capitalize(),
                     'Address Line 1':result['address_line1'],
@@ -60,20 +51,27 @@ def address_sanity_check(input_text):
                 }
 
             case 'state' | 'country':
-                # throw an error here for more specificity
+                # throw an error here for more specificity, states or countries are too broad
                 print('ERR')
 
             case 'suburb' | 'district':
-                # throw an error here, is it worth supporting?
+                # throw an error here, is it worth supporting? 
                 print('ERR')
-    
-        print('Is the following data accurate?')
-        for key, value in sanity_check.items():
-           print(f'{key}: {value}')
-        return input('Y/N: ')
+            
+        return sanity_check, result
     
     else:
         print('ERR')
 
+def result_to_hash(result):
+    geohash_code = geohash2.encode(result["lat"], result["lon"])
+    return geohash_code
+
 if __name__ == "__main__":
-    address_sanity_check(input('Where Are You Traveling? '))
+    destination = input('Where Are You Traveling? ')
+    sanity_check, result = address_sanity_check(destination)
+    for key, value in sanity_check.items():
+        print(f'{key}: {value}')
+    
+    geohash = result_to_hash(result)
+    print(geohash)

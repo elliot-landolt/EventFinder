@@ -9,3 +9,5 @@ flask
 gunicorn
 
 Authlib==1.3.0
+
+geohash2
