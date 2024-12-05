@@ -26,7 +26,6 @@ def google_oauth_callback():
     user_info = token.get("userinfo")
     if user_info:
         print("STORING USER INFO IN THE SESSION...")
-        #print(user_info)
         #> {
         #>     'at_hash': '______',
         #>     'aud': '______.apps.googleusercontent.com',
@@ -66,3 +65,9 @@ def logout():
     print("LOGGING OUT...")
     session.pop("current_user", None) # remove user info from the session
     return redirect("/")
+
+@auth_routes.route("/user/profile")
+def profile():
+    print("PROFILE PAGE...")
+    print(session["current_user"])
+    return render_template("profile.html")
