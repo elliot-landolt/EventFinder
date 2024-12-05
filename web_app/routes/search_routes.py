@@ -22,10 +22,11 @@ def sanity():
 
     dest = request_data.get("destination")
     try:
-        sanity_check, geohash = address_sanity_check(dest)
+        sanity_check, geohash, bbox, query = address_sanity_check(dest)
         print(sanity_check)
         return render_template("search_sanity.html",
-                               sanity_check=sanity_check)
+                               sanity_check=sanity_check,
+                               bbox=bbox)
     except Exception as e:
         flash("An Error Occurred. Please try agian.")
         print(e)

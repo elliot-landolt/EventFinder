@@ -1,6 +1,7 @@
 import requests
 import geohash2
 from app.geoapify import GEOAPIFY_KEY
+import string
 
 def address_sanity_check(input_text):
 
@@ -18,7 +19,7 @@ def address_sanity_check(input_text):
 
     if response.status_code == 200:
         result = response.json()
-        
+        query = result['query']['text']
         result = result['results'][0] # we only have one result, remove the outer result layer
         result_type = result['result_type'] #[unknown, amenity, building, street, suburb, district, postcode, city, county, state, country].        
         
@@ -33,9 +34,10 @@ def address_sanity_check(input_text):
                     'Address Line 1':result['address_line1'],
                     'Address Line 2':result['address_line2'],
                 }
-            
+
             case 'building':
                 # this is a street address (Ex. 3700 O St NW)
+                print(result) 
                 sanity_check = {
                     'Result Type':'Address',
                     'Address Line 1':result['address_line1'],
@@ -59,16 +61,18 @@ def address_sanity_check(input_text):
                 print('ERR')
 
         # still have to cut the len to support ticketmaster api
-        geohash_code = geohash2.encode(result["lat"], result["lon"])    
-        return sanity_check, geohash_code
+        geohash_code = geohash2.encode(result["lat"], result["lon"])
+        bbox = f"{result['bbox']['lon1']},{result['bbox']['lat1']},{result['bbox']['lon2']},{result['bbox']['lat2']}"
+        return sanity_check, geohash_code, bbox, query
     
     else:
         print(response.status_code)
 
 if __name__ == "__main__":
     destination = input('Where Are You Traveling? ')
-    sanity_check, geohash = address_sanity_check(destination)
+    sanity_check, geohash, bbox, query = address_sanity_check(destination)
     for key, value in sanity_check.items():
         print(f'{key}: {value}')
-    
+    print(bbox)
     print(geohash)
+    print(query)
