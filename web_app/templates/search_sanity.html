@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="container" style="max-width: 350px;">
-        <form action="/search/validation" method="POST">
+        <form action="/search" method="POST">
             <h3>Is this correct?</h3>
             <dl class="row">
                 {% for key, value in sanity_check.items() %}
@@ -18,9 +18,8 @@
             <iframe width="425" height="350" 
             src="https://www.openstreetmap.org/export/embed.html?{{bbox}}&amp;layer=mapnik" 
             style="border: 1px solid black"></iframe>
-            <button class="btn btn-success">Yes</button>
-            <button class="btn btn-danger">No</button>
+            <button class="btn btn-success" name="yes">Yes</button>
+            <button class="btn btn-danger" name="no">No</button>
         </form>
     </div>
-
 {% endblock %}
