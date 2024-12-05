@@ -62,9 +62,13 @@ def address_sanity_check(input_text):
 
         # still have to cut the len to support ticketmaster api
         geohash_code = geohash2.encode(result["lat"], result["lon"])
-        bbox = f"{result['bbox']['lon1']},{result['bbox']['lat1']},{result['bbox']['lon2']},{result['bbox']['lat2']}"
+        
+        if 'bbox'in result:
+            bbox = f"bbox={result['bbox']['lon1']},{result['bbox']['lat1']},{result['bbox']['lon2']},{result['bbox']['lat2']}"
+        else:
+            bbox = "0,0,0,0"
         return sanity_check, geohash_code, bbox, query
-    
+
     else:
         print(response.status_code)
 

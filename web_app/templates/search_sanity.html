@@ -16,19 +16,8 @@
             </dl>
 
             <iframe width="425" height="350" 
-            src="https://www.openstreetmap.org/export/embed.html?{{bbox | urlencode}}&amp;layer=mapnik" 
+            src="https://www.openstreetmap.org/export/embed.html?{{bbox}}&amp;layer=mapnik" 
             style="border: 1px solid black"></iframe>
-            <script>
-                function updateMap(bbox) {
-                    const iframe = document.getElementById("osmMap");
-                    iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&amp;layer=mapnik`;
-                }
-            
-                // Example: Dynamically update with a new bounding box
-                const newBbox = "-87.9000,41.7000,-87.6000,42.0000";
-                updateMap(newBbox);
-            </script>
-
             <button class="btn btn-success">Yes</button>
             <button class="btn btn-danger">No</button>
         </form>
