@@ -1,0 +1,18 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set page_title = "Verify Destination" %}
+{% set active_page = "verifyDest" %}
+
+{% block content %}
+    <div class="container" style="max-width: 350px;">
+        <h3>Is the following correct?</h3>
+        <dl class="row">
+            {% for key, value in sanity_check.items() %}
+            <div class="d-flex mb-2">
+                <dt class="flex-shrink-0 me-2">{{ key }}</dt>
+                <dd class="flex-grow-1 mb-0">{{ value }}</dd>
+            </div>
+            {% endfor %}
+        </dl>
+    </div>
+
+{% endblock %}
