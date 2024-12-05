@@ -1,0 +1,94 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set page_title = "Search For Events" %}
+{% set active_page = "search" %}
+
+{% block content %}
+
+<form action="/search/sanity" method="POST">
+    <div class="form-floating mb-3">
+      {% if 'yes' in request_data %}
+        <input type="destination" name="destination" class="form-control" placeholder={{query}}  id="Destination" aria-label="Destination" disabled>
+        <label for="Destination">{{query}}</label>
+      {% else %}
+        <input type="destination" name="destination" class="form-control" placeholder="Destination"  id="Destination" aria-label="Destination">
+        <label for="Destination">Where are you Traveling?</label>
+      {% endif %}
+      <div id="emailHelp" class="form-text">It can be a place, address, or city!</div>
+      {% if 'yes' not in request_data %}
+      <div class="col-4">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+      {% endif %}
+    </div>
+</form>
+
+{% if 'yes' in request_data %}
+<h3>Tell us more about your trip to {{query}}!</h3>
+<form class="row g-3 needs-validation" action="/search/events" method="POST">
+    <div class="col-sm-3">
+      <label for="date" class="form-label">Select Dates: </label>
+      <input type="text" id="date" name="date" class="form-control" placeholder="Pick a date" required>
+    </div>
+    <div class="row g-3">
+      <div class="col-3">
+        <label for="customRange3" class="form-label">Search Radius</label>
+        <input type="range" class="form-range" min="0" max="100" step="1" id="customRange3">
+        <input type="number" class="form-control" id="rangeNumber" placeholder='0 Miles' disabled>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <!-- Dropdown for Advanced Options -->
+      <button class="btn btn-secondary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#advancedOptions" aria-expanded="false" aria-controls="advancedOptions">
+          Advanced Options
+      </button>
+      <div class="collapse" id="advancedOptions">
+          <div class="card card-body">
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="option1">
+                  <label class="form-check-label" for="option1">
+                      Family Friendly?
+                  </label>
+              </div>
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="option2">
+                  <label class="form-check-label" for="option2">
+                      Single Source? (Only include Ticketmaster Events)
+                  </label>
+              </div>
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="option3">
+                  <label class="form-check-label" for="option3">
+                      Include TBA/TBD?
+                  </label>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+    <div class="col-4">
+      <button type="submit" class="btn btn-primary">Find Events!</button>
+    </div>
+</form>
+{% endif %}
+    <!-- Script to Update Range Selection-->
+<script>
+  const rangeInput = document.getElementById('customRange3');
+  const numberInput = document.getElementById('rangeNumber');
+  rangeInput.value = 0
+  rangeInput.addEventListener('input', function() {
+      numberInput.placeholder = rangeInput.value + " Miles";
+  });
+</script>
+
+  <!-- Create the datepicker -->
+<script>
+  flatpickr("#date", {
+    mode: "range",
+    minDate: "today",
+    dateFormat: "m-d-Y",
+  });
+</script>
+
+{% endblock %}

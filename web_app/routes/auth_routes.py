@@ -69,5 +69,4 @@ def logout():
 @auth_routes.route("/user/profile")
 def profile():
     print("PROFILE PAGE...")
-    print(session["current_user"])
     return render_template("profile.html")
