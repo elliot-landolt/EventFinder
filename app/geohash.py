@@ -63,7 +63,7 @@ def address_sanity_check(input_text):
         return sanity_check, geohash_code
     
     else:
-        print('ERR')
+        print(response.status_code)
 
 if __name__ == "__main__":
     destination = input('Where Are You Traveling? ')
