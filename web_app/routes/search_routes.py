@@ -1,13 +1,19 @@
 from flask import Blueprint, request, render_template, flash, redirect, session
 from app.geohash import address_sanity_check
+from app.database.models.searches import Search
 
 search_routes = Blueprint("search_routes", __name__)
 
 @search_routes.route("/search", methods=['POST', 'GET'])
 def search():
-    print("SEARCH...")
     if request.method == 'POST':
         request_data = dict(request.form)
+        print(request_data)
+        Search.create({
+            "query":session['query'],
+            "user": session.get('current_user', {}).get('email', 'Guest'),
+            "correct":next(iter(request_data))
+        })
         if 'no' in request_data:
             flash('Please try again, the more specific the better!', 'warning')
         return render_template("search_form.html", request_data=request_data, query=session['query'].capitalize())
