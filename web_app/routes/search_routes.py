@@ -8,7 +8,6 @@ search_routes = Blueprint("search_routes", __name__)
 def search():
     if request.method == 'POST':
         request_data = dict(request.form)
-        print(request_data)
         Search.create({
             "query":session['query'],
             "user": session.get('current_user', {}).get('email', 'Guest'),
@@ -46,3 +45,9 @@ def sanity():
         flash("An Error Occurred. Please try agian.", 'danger')
         print(e)
         return redirect("/search")
+    
+@search_routes.route("/search/events", methods=['POST'])
+def results():
+    result_data = dict(request.form)
+    print(result_data)
+    return render_template('results.html')
