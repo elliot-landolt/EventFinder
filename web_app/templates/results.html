@@ -1,8 +1,41 @@
 {% extends "bootstrap_5_layout.html" %}
+{% set page_title = "Results" %}
+{% set active_page = "results" %}
+
 
 {% block content %}
 
+    <h3> Here's what we found!</h3>
 
+    {% if event_objects|length > 0 %}
+        <div class="row">
+            {% for event in event_objects %}
+            <div class="col">
+                <div class="card" style="width: 18rem; margin-bottom: 10px;">
+                    <img class="card-img-top" src="{{ event.image['url'] }}" alt="Image of the event">
+                    <div class="card-img-overlay d-flex justify-content-end align-items-start p-2">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Save</a></li>
+                                <li><a class="dropdown-item" href="#">View on Ticketmaster</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event['name'] }}</h5>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ event['location'] }} </h6>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ event['dates']['start']['formattedDate'] }} {{ event['dates']['start']['formattedTime'] }}</h6>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>No Events Found!</p>
+    {% endif %}
 
 
 {% endblock %}
