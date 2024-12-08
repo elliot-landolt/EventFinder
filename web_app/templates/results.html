@@ -33,9 +33,16 @@
             </div>
             {% endfor %}
         </div>
+        <div class="d-flex justify-content-between">
+            {% if page_data[1] != 0 %}
+                <button type="submit" class="btn btn-primary">Previous Page</button>
+            {% endif %}
+            {% if page_data[1] != page_data[0]-1 %}
+                <button type="submit" class="btn btn-primary ms-auto">Next Page</button>
+            {% endif %}
+        </div> 
         {% else %}
         <p>No Events Found!</p>
     {% endif %}
-
 
 {% endblock %}

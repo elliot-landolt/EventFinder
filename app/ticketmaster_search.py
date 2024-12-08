@@ -68,8 +68,6 @@ def search_events(params):
                 for event in events:
                     if event['dates']['status']['code'] == 'onsale':
                         description = event['description'] if 'description' in event else None
-                        if event['name'] == 'Blackhawks vs. Jets Ketel One Club':
-                            print(event)
                         event_objects.append(Event(
                             event['id'], 
                             event['name'], 
@@ -104,4 +102,3 @@ if __name__ == "__main__":
         'page':'0'
     }, 'dr5rtwccpb')
     event_objects, page_data = search_events(params)
-    #dr5rtwccpb
