@@ -82,9 +82,12 @@ def search_events(params):
                         local_date = datetime.strptime(event['dates']['start']['localDate'], "%Y-%m-%d")
                         event['dates']['start']['formattedDate'] = local_date.strftime("%b %d, %Y")  # Example: December 7, 2024
 
-                        # Parse the localTime
-                        local_time = datetime.strptime(event['dates']['start']['localTime'], "%H:%M:%S")
-                        event['dates']['start']['formattedTime'] = local_time.strftime("%I:%M %p")  # Example: 06:30 PM
+                        if event['dates']['start']['noSpecificTime'] == True:
+                            local_time = None
+                            event['dates']['start']['formattedTime'] = 'None'
+                        else:
+                            local_time = datetime.strptime(event['dates']['start']['localTime'], "%H:%M:%S")
+                            event['dates']['start']['formattedTime'] = local_time.strftime("%I:%M %p")  # Example: 06:30 PM
                 return event_objects, page_data
             else:
                 print("No events found.")
@@ -96,8 +99,9 @@ def search_events(params):
 
 if __name__ == "__main__":
     params = create_params({
-        'date':'12-07-2024 to 12-08-2024',
+        'date':'12-08-2024',
         'range':'24',
         'page':'0'
-    }, 'dp3wnp1yf')
+    }, 'dr5rtwccpb')
     event_objects, page_data = search_events(params)
+    #dr5rtwccpb

@@ -164,3 +164,5 @@ cython_debug/
 
 # Google Credentials
 google-credentials.json
+
+*.DS_STORE
