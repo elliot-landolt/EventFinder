@@ -33,14 +33,20 @@
             </div>
             {% endfor %}
         </div>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex {% if page_data[1] != 0 %}justify-content-between{% else %}justify-content-end{% endif %}">
             {% if page_data[1] != 0 %}
-                <button type="submit" class="btn btn-primary">Previous Page</button>
+            <form method="POST" action="/search/events">
+                <input type="hidden" name="page" value="{{ page_data[1] - 1 }}">
+                <input type="submit" class="btn btn-primary" value="Previous Page">
+            </form>
             {% endif %}
             {% if page_data[1] != page_data[0]-1 %}
-                <button type="submit" class="btn btn-primary ms-auto">Next Page</button>
+            <form method="POST" action="/search/events">
+                <input type="hidden" name="page" value="{{ page_data[1] + 1 }}">
+                <input type="submit" class="btn btn-primary ms-auto" value="Next Page">
+            </form>
             {% endif %}
-        </div> 
+        </div>
         {% else %}
         <p>No Events Found!</p>
     {% endif %}
