@@ -52,8 +52,11 @@ def results():
     result_data = dict(request.form)
     if 'page' not in result_data:
         result_data['page']=0
-    params = create_params(result_data, session['geohash'])
-    print(params)
+        params = create_params(result_data, session['geohash'])
+    else:
+        params=session['params']
+        params['page']=result_data['page']
+    session['params']=params
     result = search_events(params)
     return render_template('results.html', 
                            event_objects=result[0],
