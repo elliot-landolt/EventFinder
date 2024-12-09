@@ -6,18 +6,38 @@
 <h4> Create a new itinerary </h4>
 <form class="row g-3 needs-validation" action="/saved" method="POST" novalidate>
     <div class="form-floating mb-4">
-      <input type="text" name="destination" class="form-control" placeholder="Destination" id="Destination" aria-label="Destination" required>
-      <label for="Destination">Name</label>
+      <input type="text" name="title" class="form-control" placeholder="title" id="title" aria-label="Title" required>
+      <label for="title">Name</label>
       <div class="invalid-feedback">Please provide a valid name.</div>
     </div>
   
     <div class="mb-4">
       <label for="description" class="form-label">Description</label>
-      <textarea class="form-control" id="description" name="description" rows="4" aria-label="With textarea" placeholder="Describe your trip"></textarea>
+      <textarea class="form-control" id="description" name="description" rows="4" aria-label="With textarea" placeholder="Describe your trip" required></textarea>
     </div>
   
     <div class="col-4">
       <button type="submit" class="btn btn-primary">Save</button>
     </div>
   </form>
+
+<script>
+(() => {
+    'use strict'
+
+    const forms = document.querySelectorAll('.needs-validation')
+
+    Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+        if (!form.checkValidity()){
+        event.preventDefault()
+        event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+    },false)
+    })
+})()
+
+
+</script>
 {% endblock %}
