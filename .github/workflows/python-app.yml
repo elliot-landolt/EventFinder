@@ -35,5 +35,14 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
+      env:
+        # set environment variables to use during testing
+        # ... using the repository secret values set securely via repo settings
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        GEOAPIFY_KEY: ${{ secrets.GEOAPIFY_KEY }}
+        GOOGLE_SHEETS_DOCUMENT_ID: ${{ secrets.GOOGLE_SHEETS_DOCUMENT_ID }}
+        TICKETMASTER_KEY: ${{ secrets.TICKETMASTER_KEY }}
+
       run: |
         pytest
