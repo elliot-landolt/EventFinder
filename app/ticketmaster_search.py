@@ -102,3 +102,5 @@ if __name__ == "__main__":
         'page':'0'
     }, 'dr5rtwccpb')
     event_objects, page_data = search_events(params)
+    for event in event_objects:
+        print(event.event_id)

@@ -21,3 +21,9 @@ def saved():
 @save_routes.route("/saved/new")
 def new():
     return render_template("new_itinerary.html")
+
+@save_routes.route("/saved/view_itinerary", methods=['POST'])
+def view():
+    if request.method == 'POST':
+
+        return render_template('view_itinerary.html')

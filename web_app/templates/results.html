@@ -2,71 +2,106 @@
 {% set page_title = "Results" %}
 {% set active_page = "results" %}
 
-
 {% block content %}
 
-    <h3> Here's what we found!</h3>
+<h3> Here's what we found!</h3>
 
-    {% if event_objects|length > 0 %}
-        <div class="row">
-            {% for event in event_objects %}
-            <div class="col">
-                <div class="card" style="width: 18rem; margin-bottom: 10px;">
-                    <img class="card-img-top" src="{{ event.image['url'] }}" alt="Image of the event">
-                    <div class="card-img-overlay d-flex justify-content-end align-items-start p-2">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-three-dots-vertical"></i>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Save</a></li>
-                                <li><a class="dropdown-item" href="{{ event['url'] }}">View on Ticketmaster</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ event['name'] }}</h5>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ event['location'] }} </h6>
-                        <h6 class="card-subtitle mb-2 text-body-secondary">{{ event['dates']['start']['formattedDate'] }} {{ event['dates']['start']['formattedTime'] }}</h6>
+{% if event_objects|length > 0 %}
+    <div class="row">
+        {% for event in event_objects %}
+        <div class="col">
+            <div class="card" style="width: 18rem; margin-bottom: 10px;">
+                <img class="card-img-top" src="{{ event.image['url'] }}" alt="Image of the event">
+                <div class="card-img-overlay d-flex justify-content-end align-items-start p-2">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" data-event-id="{{ event['event_id'] }}">Save</a></li>
+                            <li><a class="dropdown-item" href="{{ event['url'] }}">View on Ticketmaster</a></li>
+                        </ul>
                     </div>
                 </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ event['name'] }}</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ event['location'] }} </h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ event['dates']['start']['formattedDate'] }} {{ event['dates']['start']['formattedTime'] }}</h6>
+                </div>
             </div>
-            {% endfor %}
         </div>
-        <div class="d-flex {% if page_data[1] != 0 %}justify-content-between{% else %}justify-content-end{% endif %}">
-            {% if page_data[1] != 0 %}
-            <form method="POST" action="/search/events">
-                <input type="hidden" name="page" value="{{ page_data[1] - 1 }}">
-                <input type="submit" class="btn btn-primary" value="Previous Page">
-            </form>
-            {% endif %}
-            {% if page_data[1] != page_data[0]-1 %}
-            <form method="POST" action="/search/events">
-                <input type="hidden" name="page" value="{{ page_data[1] + 1 }}">
-                <input type="submit" class="btn btn-primary ms-auto" value="Next Page">
-            </form>
-            {% endif %}
-        </div>
-        {% else %}
-        <p>No Events Found!</p>
-    {% endif %}
+        {% endfor %}
+    </div>
+    <div class="d-flex {% if page_data[1] != 0 %}justify-content-between{% else %}justify-content-end{% endif %}">
+        {% if page_data[1] != 0 %}
+        <form method="POST" action="/search/events">
+            <input type="hidden" name="page" value="{{ page_data[1] - 1 }}">
+            <input type="submit" class="btn btn-primary" value="Previous Page">
+        </form>
+        {% endif %}
+        {% if page_data[1] != page_data[0]-1 %}
+        <form method="POST" action="/search/events">
+            <input type="hidden" name="page" value="{{ page_data[1] + 1 }}">
+            <input type="submit" class="btn btn-primary ms-auto" value="Next Page">
+        </form>
+        {% endif %}
+    </div>
+{% else %}
+    <p>No Events Found!</p>
+{% endif %}
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
+{% if page_data|length > 0 %}
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            {% if session['current_user'] %}
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Save</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="#" method="POST">
+                <div class="modal-body">
+                    <input type="hidden" name="event_id" id="event-id">
+                    <input type="hidden" name="page" id="page" value="{{ page_data[1] }}">
+                    <h4>Select an Itinerary:</h4>
+                    <select name="itinerary[]" class="form-select" multiple aria-label="Multiple select example">
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <div id="emailHelp" class="form-text">Hold CTRL/CMD to select multiple!</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>          
+                </div>
+            </form>
+            {% else %}
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Oops!</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              ...
+                <h4>Login to save this event.</h4>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
+            {% endif %}
         </div>
-      </div>
+    </div>
+</div>
+
+{% endif %}
+<script>
+    var exampleModal = document.getElementById('exampleModal');
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+        // Button that triggered the modal
+        var button = event.relatedTarget;
+        var eventId = button.getAttribute('data-event-id');  // Extract data-event-id
+
+        // Set the value of the hidden input field to the event ID
+        var eventInput = exampleModal.querySelector('#event-id');
+        eventInput.value = eventId;
+    });
+</script>
 
 {% endblock %}
