@@ -1,5 +1,4 @@
 class Event:
-    def __init__(self, event_id, name, description, location, dates, url, image):
     def __init__(self, event_id, name, description, location, dates, url, image, classification):
         self.event_id = event_id
         self.name = name
