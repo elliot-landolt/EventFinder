@@ -1,6 +1,4 @@
-
-from flask import session, flash, redirect, current_app
-from flask import Blueprint, session, redirect, url_for, render_template
+from flask import Blueprint, session, redirect, url_for, render_template, current_app
 
 from app.database.models.logins import Login
 
