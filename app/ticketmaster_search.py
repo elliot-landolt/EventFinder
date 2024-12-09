@@ -68,6 +68,7 @@ def search_events(params):
                 for event in events:
                     if event['dates']['status']['code'] == 'onsale':
                         description = event['description'] if 'description' in event else None
+                        print(event)
                         event_objects.append(Event(
                             event['id'], 
                             event['name'], 
@@ -95,10 +96,10 @@ def search_events(params):
 
 if __name__ == "__main__":
     params = create_params({
-        'date':'12-07-2024 to 12-28-2024',
-        'range':'24',
-        'page':'0'
-    }, 'dp3wnp1yf')
+        'date':'12-09-2024 to 12-10-2024',
+        'range':'50',
+        'page':'0',
+    }, 'dp3wt29x6')
     event_objects, page_data = search_events(params)
     events_genre = []
     for event in event_objects:

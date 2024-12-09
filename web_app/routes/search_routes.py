@@ -53,6 +53,8 @@ def results():
     if 'page' not in result_data:
         result_data['page']=0
     params = create_params(result_data, session['geohash'])
+    classifications = request.form.getlist('classifications[]')
+    params['classificationName'] = classifications
     result = search_events(params)
     return render_template('results.html', 
                            event_objects=result[0],
