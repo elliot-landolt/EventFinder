@@ -68,8 +68,6 @@ def search_events(params):
                 for event in events:
                     if event['dates']['status']['code'] == 'onsale':
                         description = event['description'] if 'description' in event else None
-                        if event['name'] == 'Blackhawks vs. Jets Ketel One Club':
-                            print(event)
                         event_objects.append(Event(
                             event['id'], 
                             event['name'], 
@@ -77,7 +75,8 @@ def search_events(params):
                             event['_embedded']['venues'][0]['name'],
                             event['dates'],
                             event['url'],
-                            event['images'][2])
+                            event['images'][2],
+                            event['classifications'][0]['segment']['name'])
                         )
                         local_date = datetime.strptime(event['dates']['start']['localDate'], "%Y-%m-%d")
                         event['dates']['start']['formattedDate'] = local_date.strftime("%b %d, %Y")  # Example: December 7, 2024
@@ -96,8 +95,12 @@ def search_events(params):
 
 if __name__ == "__main__":
     params = create_params({
-        'date':'12-07-2024 to 12-08-2024',
+        'date':'12-07-2024 to 12-28-2024',
         'range':'24',
         'page':'0'
     }, 'dp3wnp1yf')
     event_objects, page_data = search_events(params)
+    events_genre = []
+    for event in event_objects:
+        events_genre.append(event.classification)
+    print(events_genre)
