@@ -50,15 +50,32 @@ def sanity():
 @search_routes.route("/search/events", methods=['POST'])
 def results():
     result_data = dict(request.form)
+    if 'itinerary[]' in result_data:
+        # this is a modal submission
+        itineraries = request.form.getlist('itinerary[]')
+        result_data = dict(request.form)
+        print(itineraries)
+        print(result_data)
+        # process this and add event to the itinerary
+
+        # this requires some query manipulation to relate itinerary selection to its PK and then attach the event
+
+    
     if 'page' not in result_data:
         result_data['page']=0
         params = create_params(result_data, session['geohash'])
     else:
         params=session['params']
         params['page']=result_data['page']
+    
     session['params']=params
+    
     result = search_events(params)
-    return render_template('results.html', 
-                           event_objects=result[0],
-                           page_data=result[1],
-                           params=params)
+    if result is not None:
+        return render_template('results.html', 
+                            event_objects=result[0],
+                            page_data=result[1],
+                            params=params)
+    else:
+        return render_template('results.html',
+                            params=params)
