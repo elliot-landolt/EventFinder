@@ -50,6 +50,7 @@ def sanity():
 @search_routes.route("/search/events", methods=['POST'])
 def results():
     result_data = dict(request.form)
+    print(result_data)
     if 'page' not in result_data:
         result_data['page']=0
     params = create_params(result_data, session['geohash'])
