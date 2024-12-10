@@ -39,5 +39,51 @@ EventFinder makes finding tickets for your favorite events easy!
 <img style= "image-orientation: center;" src="https://imageio.forbes.com/specials-images/imageserve/66ba827c8ff2be58a5e1ea62/Aircraft-landing-at-sunrise/960x0.jpg?format=jpg&width=960" alt="A stunning sunset" width="600" height="400" />
 
 
+{% if session['current_user'] %}
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <img src="https://media.licdn.com/dms/image/v2/D4E03AQEsfPtLCY2zSg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1684860897363?e=2147483647&v=beta&t=VlaxQmF5QF_JhlNLCZoswPisbemTw7E3-4oJx-3EuXQ" 
+        class="rounded me-2" alt="..." style="width: 40px; height: 40px;">
+        <strong class="me-auto">Brooke</strong>
+        <small>Just now</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" style="color:black">
+        <p>
+        Hey! Thanks for logging in, want to <br> <a href="/saved/new">create a new itinerary?</a>
+        </p>
+    </div>
+    </div>
+  </div>
+
+{% else %}
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <img src="/static/images/colin.jpg" class="rounded me-2" alt="..." style="width: 40px; height:40px;">
+        <strong class="me-auto">Colin</strong>
+        <small>Just now</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" style="color:black">
+        Welcome to EventFinder! <br> The best way to get started is <a href="/login">login!</a>
+      </div>
+    </div>
+  </div>
+
+{% endif %}
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toastElement = document.getElementById('liveToast');
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+    });
+
+</script>
+
 
 {% endblock %}
