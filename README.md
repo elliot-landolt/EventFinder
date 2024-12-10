@@ -18,6 +18,22 @@ To install the required packages for local testing:
 pip install -r requirements.txt
 ```
 
+## Required API Keys
+Using our app requires multiple unique API Keys.
+
+### Google and Google Cloud
+- Google Client ID
+
+- Google Client Secret
+
+- Google Sheets Document ID
+
+### Geoapify
+- Geoapify API Key
+
+### Ticketmaster
+- Ticketmaster Discovery API Key
+
 ## Usage (local)
 
 To run individual python scripts use
@@ -31,3 +47,8 @@ flask run
 ```
 
 ## Testing
+
+To test the functionality of our app:
+```sh
+pytest
+```
