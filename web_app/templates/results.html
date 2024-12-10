@@ -65,16 +65,22 @@
                     <input type="hidden" name="event_id" id="event-id">
                     <input type="hidden" name="page" id="page" value="{{ page_data[1] }}">
                     <h4>Select an Itinerary:</h4>
+                    {% if itineraries|length > 0 %}
                     <select name="itinerary[]" class="form-select" multiple aria-label="Multiple select example">
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        {% for itinerary in itineraries %}
+                        <option value="{{ itinerary.id }}">{{ itinerary.title }}</option>
+                        {% endfor %}
                     </select>
                     <div id="emailHelp" class="form-text">Hold CTRL/CMD to select multiple!</div>
+                    {% else %}
+                    <p><a class="link-opacity-100" href="/saved/new">Let's go make your first itinerary!</a></p>
+                    {% endif %}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Submit</button>          
+                    {% if itineraries|length > 0 %}
+                        <button type="submit" class="btn btn-primary">Submit</button>      
+                    {% endif %}    
                 </div>
             </form>
             {% else %}

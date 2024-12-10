@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, flash, redirect, session
 from app.geohash import address_sanity_check
 from app.database.models.searches import Search
 from app.ticketmaster_search import search_events, create_params
+from app.database.queries import query_itineraries, add_saved_event
 
 search_routes = Blueprint("search_routes", __name__)
 
@@ -52,15 +53,15 @@ def results():
     result_data = dict(request.form)
     if 'itinerary[]' in result_data:
         # this is a modal submission
-        itineraries = request.form.getlist('itinerary[]')
+        itinerary_selection = request.form.getlist('itinerary[]')
         result_data = dict(request.form)
-        print(itineraries)
-        print(result_data)
-        # process this and add event to the itinerary
+        result = add_saved_event(result_data.get('event_id'), itinerary_selection)
+        if result == True:
+            flash('Success! Your event was added.', 'success')
+        else:
+            flash('Oops! Looks like this is already in your itinerary!', 'warning')
 
-        # this requires some query manipulation to relate itinerary selection to its PK and then attach the event
 
-    
     if 'page' not in result_data:
         result_data['page']=0
         params = create_params(result_data, session['geohash'])
@@ -68,6 +69,9 @@ def results():
         params=session['params']
         params['page']=result_data['page']
     
+    if session['current_user']:
+        itinerary_list = query_itineraries(session['current_user']['email'])
+
     session['params']=params
     
     result = search_events(params)
@@ -75,6 +79,7 @@ def results():
         return render_template('results.html', 
                             event_objects=result[0],
                             page_data=result[1],
+                            itineraries=itinerary_list,
                             params=params)
     else:
         return render_template('results.html',
