@@ -14,7 +14,6 @@ def saved():
         })
         flash('Itinerary Added!', 'success')
 
-
     return render_template("saved.html")
 
 
