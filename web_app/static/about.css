@@ -1,0 +1,18 @@
+.about_caption {
+    font-family: "Lucida Handwriting", "serif"; /* Ensures the cursive font is applied */
+    color: black; /* Makes all text black */
+    background-color: rgba(255, 255, 255, 0.8); /* White background with 80% opacity */
+    padding: 10px; /* Adds some space around the text for better readability */
+    border-radius: 8px; /* Optional: Rounds the corners for a softer look */
+    display: inline-block; /* Ensures the background fits snugly around the text */
+}
+
+.carousel-caption h5 {
+    font-family: "Lucida Handwriting", cursive; /* Applies cursive font to the name */
+    font-size: 35px;
+    /* color: black; /* Ensures the name text is black */
+}
+
+.carousel-caption p {
+    color: black; /* Ensures the paragraph text is black */
+}
