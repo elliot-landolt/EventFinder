@@ -6,11 +6,34 @@
 
 <div class="container">
     <div class="row">
-      <h3>{{ session['current_user']['given_name'] }}'s Itineraries</h3>
-      <div class="col text-end">
-        <a class="btn btn-primary" href="/saved/new" role="button">New</a>
+        <h3>{{ session['current_user']['given_name'] }}'s Itineraries</h3>
+        <div class="col text-end">
+            <a class="btn btn-primary" href="/saved/new" role="button">New</a>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-3">
+  <div class="accordion" id="accordionExample">
+    {% for itinerary in itineraries %}
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ itinerary.id }}" aria-expanded="false" aria-controls="collapseOne">
+          {{ itinerary.title }}
+        </button>
+      </h2>
+      <div id="collapse{{ itinerary.id }}" class="accordion-collapse collapse hide">
+        <div class="accordion-body">
+          <p> {{ itinerary.description }} <br> <br> Created: {{ itinerary.created_at.strftime('%b %d, %Y %I:%M %p') }} </p>
+          <form class="row g-3" action="/saved/view_itinerary" method="POST">
+            <input type="hidden" name="itinerary_id" id="itinerary_id" value="{{ itinerary.id }}">
+            <button type="submit" class="btn btn-primary">View Itinerary</button>
+          </form>
+        </div>
       </div>
     </div>
+    {% endfor %}
   </div>
-  
+</div>
+
 {% endblock %}

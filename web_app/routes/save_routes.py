@@ -1,5 +1,6 @@
 from flask import Blueprint, session, render_template, current_app, request, flash
 from app.database.models.itinerary import Itinerary
+from app.database.queries import query_itineraries, get_events
 
 save_routes = Blueprint("save_routes", __name__)
 
@@ -13,8 +14,10 @@ def saved():
             "description":request_data.get('description', '').strip()
         })
         flash('Itinerary Added!', 'success')
+    
+    itineraries = query_itineraries(session['current_user']['email'])
 
-    return render_template("saved.html")
+    return render_template("saved.html", itineraries=itineraries)
 
 
 @save_routes.route("/saved/new")
@@ -24,5 +27,8 @@ def new():
 @save_routes.route("/saved/view_itinerary", methods=['POST'])
 def view():
     if request.method == 'POST':
-
-        return render_template('view_itinerary.html')
+        id = dict(request.form)['itinerary_id']
+        events = get_events(id)
+        itinerary = Itinerary.where(id=int(id))
+        print(events)
+        return render_template('view_itinerary.html', events=events, itinerary=itinerary[0])
