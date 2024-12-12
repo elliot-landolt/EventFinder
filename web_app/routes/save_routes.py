@@ -2,9 +2,12 @@ from flask import Blueprint, session, render_template, current_app, request, fla
 from app.database.models.itinerary import Itinerary
 from app.database.queries import query_itineraries, get_events
 
+from web_app.routes.wrapper import authenticated_route
+
 save_routes = Blueprint("save_routes", __name__)
 
 @save_routes.route("/saved", methods=['POST', 'GET'])
+@authenticated_route
 def saved():
     if request.method == 'POST':
         request_data = dict(request.form)
@@ -21,10 +24,12 @@ def saved():
 
 
 @save_routes.route("/saved/new")
+@authenticated_route
 def new():
     return render_template("new_itinerary.html")
 
 @save_routes.route("/saved/view_itinerary", methods=['POST'])
+@authenticated_route
 def view():
     if request.method == 'POST':
         id = dict(request.form)['itinerary_id']
