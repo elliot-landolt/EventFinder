@@ -1,6 +1,7 @@
 from flask import Blueprint, session, redirect, url_for, render_template, current_app
 
 from app.database.models.logins import Login
+from web_app.routes.wrapper import authenticated_route
 
 auth_routes = Blueprint("auth_routes", __name__)
 
@@ -48,6 +49,6 @@ def logout():
     return redirect("/")
 
 @auth_routes.route("/user/profile")
+@authenticated_route
 def profile():
-    
     return render_template("profile.html")
