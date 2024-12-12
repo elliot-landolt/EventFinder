@@ -1,0 +1,39 @@
+{% extends "bootstrap_5_layout.html" %}
+{% set page_title = "View My Itinerary" %}
+{% set active_page = "view_itinerary" %}
+
+{% block content %}
+
+<h3>{{ itinerary.title }}</h3>
+<h6> {{ itinerary.description }}</h6>
+
+{% if events|length > 0 %}
+    <div class="row">
+        {% for event in events %}
+        <div class="col">
+            <div class="card" style="width: 18rem; margin-bottom: 10px;">
+                <img class="card-img-top" src="{{ event.image }}" alt="Image of the event">
+                <div class="card-img-overlay d-flex justify-content-end align-items-start p-2">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" data-event-id="{{ event['event_id'] }}">Save</a></li>
+                            <li><a class="dropdown-item" href="{{ event['url'] }}" target="_blank">View on Ticketmaster</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ event['title'] }}</h5>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ event['location'] }} </h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ event['date'] }} {{ event['time'] }}</h6>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+{% else %}
+<h4> Oops! Looks like we don't have any events saved in this itinerary just yet! </h4>
+{% endif %}
+
+{% endblock %}
