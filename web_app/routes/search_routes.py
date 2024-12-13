@@ -69,9 +69,11 @@ def results():
         params=session['params']
         params['page']=result_data['page']
     
-    if session['current_user']:
+    if session.get('current_user'):
         itinerary_list = query_itineraries(session['current_user']['email'])
-
+    else:
+        # Handle the case where there is no current user
+        itinerary_list = []
     session['params']=params
     
     result = search_events(params)
